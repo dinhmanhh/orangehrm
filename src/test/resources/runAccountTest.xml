@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<suite name="NopCommerce">
+  <listeners>
+    <listener class-name="commons.MethodListener"/>
+    <listener class-name="reportConfig.AllureTestListener"/>
+  </listeners>
+  <test name="Run on SAFARI" preserve-order="true">>
+  <parameter name="browser" value ="safari"/>
+    <classes>
+      <class name="account.Login"/>
+    </classes>
+  </test>  
+  
+</suite> 
