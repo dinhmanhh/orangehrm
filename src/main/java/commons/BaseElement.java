@@ -2,7 +2,6 @@ package commons;
 
 import org.openqa.selenium.WebDriver;
 import pageUIs.BaseElementUI;
-import pageUIs.HomePageUI;
 
 public class BaseElement extends BasePage {
     private WebDriver driver;
@@ -10,7 +9,7 @@ public class BaseElement extends BasePage {
         this.driver = driver;
     }
 
-    public boolean isUserNameDisplay() {
+    public boolean isUserNameDisplayed() {
         waitForElementVisible(driver, BaseElementUI.HEADER_USER_NAME);
         return isElementDisplayed(driver, BaseElementUI.HEADER_USER_NAME);
     }

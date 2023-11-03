@@ -110,7 +110,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
         }
 
         private String getDynamicLocator(String xpathLocator, String... dynamicValues) {
-            return xpathLocator = String.format(xpathLocator, (Object[]) dynamicValues);
+            xpathLocator = String.format(xpathLocator, (Object[]) dynamicValues);
+            return xpathLocator;
         }
 
         public List<WebElement> getListWebElement(WebDriver driver, String xpathLocator) {
@@ -183,6 +184,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
         public String getElementAttribute(WebDriver driver, String xpathLocator, String attributeName) {
             return getWebElement(driver, xpathLocator).getAttribute(attributeName);
+        }
+        public String getElementAttribute(WebDriver driver, String xpathLocator, String attributeName, String... dynamicValues) {
+            return getWebElement(driver, getDynamicLocator(xpathLocator, dynamicValues)).getAttribute(attributeName);
         }
 
         public String getElementText(WebDriver driver, String xpathLocator) {

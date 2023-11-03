@@ -3,6 +3,7 @@ package account;
 import commons.BaseTest;
 import commons.PageGeneratorManager;
 import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
@@ -29,8 +30,8 @@ public class Person_Information_Management extends BaseTest {
         firstNameEmployee = "Vladimir";
         middleNameEmployee = "Vladimirovich";
         lastNameEmployee = "Putin";
-        userNameEmployee = "putin";
-        passwordEmployee = "Putin123";
+        userNameEmployee = lastNameEmployee + getRandomNumberByDateTime();
+        passwordEmployee = "Putin123@";
     }
 
     @Test
@@ -38,7 +39,7 @@ public class Person_Information_Management extends BaseTest {
         loginPage.inputToUserNameTextBox(username);
         loginPage.inputToPasswordTextBox(password);
         homePage = loginPage.clickToLoginButton();
-        verifyTrue(homePage.isUserNameDisplay());
+        Assert.assertTrue(homePage.isUserNameDisplayed());
     }
 
     @Test
@@ -51,11 +52,20 @@ public class Person_Information_Management extends BaseTest {
         pimPage.inputToEmployeeNameTextbox("Last Name", lastNameEmployee);
         pimPage.clickToCreateLoginDetailCheckbox();
         pimPage.inputToEmployeeLoginInforTextbox("Username", userNameEmployee);
-        pimPage.inputToEmployeeLoginInforTextbox("Password", userNameEmployee);
-        pimPage.inputToEmployeeLoginInforTextbox("Confirm Password", userNameEmployee);
+        pimPage.inputToEmployeeLoginInforTextbox("Password", passwordEmployee);
+        pimPage.inputToEmployeeLoginInforTextbox("Confirm Password", passwordEmployee);
         pimPage.clickToSaveButton();
+        Assert.assertTrue(pimPage.isAddNewEmployeeSuccessMessageDisplayed());
+        Assert.assertTrue(pimPage.isPersonalDetailPageDisplayed());
+        Assert.assertEquals(pimPage.getEmployeeInforAtPersonalDetailsPage("First Name"), firstNameEmployee);
+        Assert.assertEquals(pimPage.getEmployeeInforAtPersonalDetailsPage("Middle Name"), middleNameEmployee);
+        Assert.assertEquals(pimPage.getEmployeeInforAtPersonalDetailsPage("Last Name"), lastNameEmployee);
     }
 
+    @Test
+    public void TC_03_Edit_Employee_Infor(){
+
+    }
 
     @AfterClass(alwaysRun = true)
     public void afterClass() {

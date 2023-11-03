@@ -5,8 +5,8 @@
     <listener class-name="commons.MethodListener"/>
     <listener class-name="reportConfig.AllureTestListener"/>
   </listeners>
-  <test name="Run on SAFARI" preserve-order="true">>
-  <parameter name="browser" value ="safari"/>
+  <test name="Run on FIREFOX" preserve-order="true">>
+  <parameter name="browser" value ="firefox"/>
     <classes>
       <class name="account.Person_Information_Management"/>
     </classes>
