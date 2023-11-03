@@ -8,7 +8,7 @@
   <test name="Run on SAFARI" preserve-order="true">>
   <parameter name="browser" value ="safari"/>
     <classes>
-      <class name="account.Login"/>
+      <class name="account.Person_Information_Management"/>
     </classes>
   </test>  
   
