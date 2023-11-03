@@ -1,12 +1,13 @@
 package pageObject;
 
-import commons.BasePage;
+import commons.BaseElement;
 import org.openqa.selenium.WebDriver;
 import pageUIs.PIMPageUI;
 
-public class PIMPageObject extends BasePage {
+public class PIMPageObject extends BaseElement {
     private WebDriver driver;
     public PIMPageObject(WebDriver driver){
+        super(driver);
         this.driver = driver;
     }
 
