@@ -5,6 +5,7 @@
     <listener class-name="commons.MethodListener"/>
     <listener class-name="reportConfig.AllureTestListener"/>
   </listeners>
+  <parameter name = "environment" value="test"/>
   <test name="Run on FIREFOX" preserve-order="true">>
   <parameter name="browser" value ="firefox"/>
     <classes>

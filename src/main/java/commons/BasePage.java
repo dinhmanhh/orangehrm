@@ -11,8 +11,9 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import pageUIs.BaseElementUI;
 
-    public class BasePage {
+public class BasePage {
         private long longTimeout = GlobalConstants.LONG_TIMEOUT;
         private long shortTimeout = GlobalConstants.SHORT_TIMEOUT;
 
@@ -322,10 +323,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
             jsExecutor.executeScript("arguments[0].removeAttribute('" + attributeRemove + "');", getWebElement(driver, xpathLocator));
         }
 
-        public boolean areJQueryAndJSLoadedSuccess(WebDriver driver) {
+        public boolean isPageLoadedSuccess(WebDriver driver) {
             WebDriverWait explicitWait = new WebDriverWait(driver, longTimeout);
             JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
-
             ExpectedCondition<Boolean> jQueryLoad = new ExpectedCondition<Boolean>() {
                 @Override
                 public Boolean apply(WebDriver driver) {
@@ -336,14 +336,12 @@ import org.openqa.selenium.support.ui.WebDriverWait;
                     }
                 }
             };
-
             ExpectedCondition<Boolean> jsLoad = new ExpectedCondition<Boolean>() {
                 @Override
                 public Boolean apply(WebDriver driver) {
                     return jsExecutor.executeScript("return document.readyState").toString().equals("complete");
                 }
             };
-
             return explicitWait.until(jQueryLoad) && explicitWait.until(jsLoad);
         }
 
@@ -435,15 +433,15 @@ import org.openqa.selenium.support.ui.WebDriverWait;
             driver.manage().deleteAllCookies();
         }
 
-//        public void uploadMultipleFiles(WebDriver driver, String... fileNames){
-//            String filePath = GlobalConstants.UPLOAD_FILE;
-//            String fullFileName = "";
-//            for (String file : fileNames){
-//                fullFileName = fullFileName + filePath + file + "\n";
-//            }
-//            fullFileName = fullFileName.trim();
-//            getWebElement(driver, BasePageUploadFileUI.UPLOAD_FILE).sendKeys(fullFileName);
-//        }
+        public void uploadMultipleFiles(WebDriver driver, String... fileNames){
+            String filePath = GlobalConstants.UPLOAD_FILE;
+            String fullFileName = "";
+            for (String file : fileNames){
+                fullFileName = fullFileName + filePath + file + "\n";
+            }
+            fullFileName = fullFileName.trim();
+            getWebElement(driver, BaseElementUI.UPLOAD_FILE).sendKeys(fullFileName);
+        }
 
 //    }
 }

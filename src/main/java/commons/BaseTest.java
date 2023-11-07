@@ -63,7 +63,7 @@ public class BaseTest {
         driver.manage().timeouts().implicitlyWait(GlobalConstants.LONG_TIMEOUT, TimeUnit.SECONDS);
         return driver;
     }
-    protected WebDriver getBrowserDriver(String browserName, String Url) {
+    protected WebDriver getBrowserDriver(String browserName, String environmentName) {
         if (browserName.equals("firefox")) {
             driver = WebDriverManager.firefoxdriver().create();
         } else if (browserName.equals("h_firefox")) {
@@ -94,10 +94,29 @@ public class BaseTest {
             throw new RuntimeException("Browser name invalid!");
         }
         driver.manage().timeouts().implicitlyWait(GlobalConstants.LONG_TIMEOUT, TimeUnit.SECONDS);
-        driver.get(Url);
+        driver.get(getEnvironmentURL(environmentName));
         return driver;
     }
 
+    protected String getEnvironmentURL(String environmentName){
+        String envURL = null;
+        EnvironmentList environment = EnvironmentList.valueOf(environmentName.toUpperCase());
+        switch (environment){
+            case TEST:
+                envURL = "http://dinhmanh.automation:86/orangehrm5/";
+                break;
+            case STAGING:
+                envURL = "https://opensource-demo.orangehrmlive.com/";
+                break;
+            case PRODUCT:
+                envURL = "https://www.orangehrm.com/";
+                break;
+            default:
+                envURL = null;
+                break;
+        }
+        return envURL;
+    }
     public int generateFakeNumber(){
         Random rand = new Random();
         return rand.nextInt(99999);
