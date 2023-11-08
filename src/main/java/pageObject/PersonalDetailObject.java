@@ -3,8 +3,6 @@ package pageObject;
 import commons.BaseElement;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
-import pageUIs.BaseElementUI;
-import pageUIs.PIMPageUI;
 import pageUIs.PersonalDetailPageUI;
 import utilities.MySQLConnUtils;
 
@@ -63,9 +61,9 @@ public class PersonalDetailObject extends BaseElement {
         sendkeysToElement(driver, PersonalDetailPageUI.DRIVER_LICENSE_NUMBER_TEXTBOX, driverLicenseNumber);
     }
 
-    public void inputToLicenseExpiredDateTextbox(String licenseExpiredDate) {
-        waitForElementVisible(driver, PersonalDetailPageUI.LICENSE_EXPIRED_DATE);
-        sendkeysToElement(driver, PersonalDetailPageUI.LICENSE_EXPIRED_DATE, licenseExpiredDate);
+    public void inputToLicenseExpiryDateTextbox(String licenseExpiredDate) {
+        waitForElementVisible(driver, PersonalDetailPageUI.LICENSE_EXPIRY_DATE);
+        sendkeysToElement(driver, PersonalDetailPageUI.LICENSE_EXPIRY_DATE, licenseExpiredDate);
     }
 
     public void selectNationality(String nationality) {
@@ -86,8 +84,57 @@ public class PersonalDetailObject extends BaseElement {
         clickToElement(driver, PersonalDetailPageUI.GENDER_RADIO_BUTTON, gender);
     }
 
-    public void clickToSaveButton() {
-        waitForElementClickable(driver, PersonalDetailPageUI.SAVE_BUTTON);
-        clickToElement(driver, PersonalDetailPageUI.SAVE_BUTTON);
+    public void clickToSaveButtonAtPersonalInforArea() {
+        waitForElementClickable(driver, PersonalDetailPageUI.SAVE_BUTTON_AT_PERSONAL_INFOR_AREA);
+        clickToElement(driver, PersonalDetailPageUI.SAVE_BUTTON_AT_PERSONAL_INFOR_AREA);
+    }
+
+    public String getDriverLicenseNumber() {
+        waitForElementVisible(driver, PersonalDetailPageUI.DRIVER_LICENSE_NUMBER_TEXTBOX);
+        return getElementAttribute(driver, PersonalDetailPageUI.DRIVER_LICENSE_NUMBER_TEXTBOX, "value");
+    }
+
+    public String getLicenseExpiryDate() {
+        waitForElementVisible(driver, PersonalDetailPageUI.LICENSE_EXPIRY_DATE);
+        return getElementAttribute(driver, PersonalDetailPageUI.LICENSE_EXPIRY_DATE, "value");
+    }
+
+    public String getNationality() {
+        waitForElementVisible(driver, PersonalDetailPageUI.NATIONALITY_DROPDOWN);
+        return getElementAttribute(driver, PersonalDetailPageUI.NATIONALITY_DROPDOWN, "textContent");
+    }
+
+    public String getMaritalStatus() {
+        waitForElementVisible(driver, PersonalDetailPageUI.MARITAL_STATUS_DROPDOWN);
+        return getElementAttribute(driver, PersonalDetailPageUI.MARITAL_STATUS_DROPDOWN, "textContent");
+    }
+
+    public String getDateOfBirth() {
+        waitForElementVisible(driver, PersonalDetailPageUI.DATE_OF_BIRTH_TEXTBOX);
+        return getElementAttribute(driver, PersonalDetailPageUI.DATE_OF_BIRTH_TEXTBOX, "value");
+    }
+
+    public void uploadAttachmentFile(String fileName) {
+        uploadMultipleFiles(driver, fileName);
+    }
+
+    public void clickToAddAttachmentButton() {
+        waitForElementClickable(driver, PersonalDetailPageUI.ADD_ATTACHMENT_BUTTON);
+        clickToElement(driver, PersonalDetailPageUI.ADD_ATTACHMENT_BUTTON);
+    }
+
+    public int getNumberOfImageIsUploaded() {
+        waitForElementVisible(driver, PersonalDetailPageUI.IMAGE_UPLOADED_RESULT);
+        return getElementSize(driver, PersonalDetailPageUI.IMAGE_UPLOADED_RESULT);
+    }
+
+    public void clickToSaveButtonAtUploadAttachmentArea() {
+        waitForElementClickable(driver, PersonalDetailPageUI.SAVE_BUTTON_AT_ATTACHMENT_AREA);
+        clickToElement(driver, PersonalDetailPageUI.SAVE_BUTTON_AT_ATTACHMENT_AREA);
+    }
+
+    public String getImageUploadedName() {
+        waitForElementVisible(driver, PersonalDetailPageUI.IMAGE_UPLOADED_NAME_TEXT);
+        return getElementAttribute(driver, PersonalDetailPageUI.IMAGE_UPLOADED_NAME_TEXT, "textContent");
     }
 }

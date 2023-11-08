@@ -21,7 +21,8 @@ public class Person_Information_Management extends BaseTest {
     private PIMPageObject pimPage;
     private PersonalDetailObject personalDetailPage;
     private String firstNameEmployee, middleNameEmployee, lastNameEmployee, userNameEmployee, passwordEmployee;
-    private String driverLicenseNumber, licenseExpiredDate, nationality, maritalStatus, dateOfBirth, gender;
+    private String driverLicenseNumber, licenseExpiryDate, nationality, maritalStatus, dateOfBirth, gender;
+    private String fileUploadAtPersonalDetailPage;
     @Parameters({"browser", "environment"})
     @BeforeClass
     public void beforeClass(String browserName, String environmentName) {
@@ -36,11 +37,12 @@ public class Person_Information_Management extends BaseTest {
         passwordEmployee = "Putin123@";
 
         driverLicenseNumber = "1406267";
-        licenseExpiredDate = "2024-10-02";
+        licenseExpiryDate = "2024-10-02";
         nationality = "Vietnamese";
         maritalStatus = "Married";
         dateOfBirth = "1997-04-29";
         gender = "Male";
+        fileUploadAtPersonalDetailPage = "Java.png";
     }
 
     @Test
@@ -81,14 +83,28 @@ public class Person_Information_Management extends BaseTest {
     @Test
     public void TC_03_Edit_Employee_Infor(){
         personalDetailPage.inputToDriverLicenseNumberTextbox(driverLicenseNumber);
-        personalDetailPage.inputToLicenseExpiredDateTextbox(licenseExpiredDate);
+        personalDetailPage.inputToLicenseExpiryDateTextbox(licenseExpiryDate);
         personalDetailPage.selectNationality(nationality);
         personalDetailPage.selectMaritalStatus(maritalStatus);
         personalDetailPage.inputToDateOfBirthTextbox(dateOfBirth);
         personalDetailPage.selectGenderByGenderText(gender);
-        personalDetailPage.clickToSaveButton();
+        personalDetailPage.clickToSaveButtonAtPersonalInforArea();
         personalDetailPage.isUpdatedSuccessMessageDisplayed();
         personalDetailPage.waitSpinnerLoadingIconUndisplayed();
+
+        personalDetailPage.clickToAddAttachmentButton();
+        personalDetailPage.uploadAttachmentFile(fileUploadAtPersonalDetailPage);
+        personalDetailPage.clickToSaveButtonAtUploadAttachmentArea();
+        personalDetailPage.isSavedSuccessMessageDisplayed();
+        personalDetailPage.waitSpinnerLoadingIconUndisplayed();
+
+        Assert.assertEquals(personalDetailPage.getDriverLicenseNumber(), driverLicenseNumber);
+        Assert.assertEquals(personalDetailPage.getLicenseExpiryDate(), licenseExpiryDate);
+        Assert.assertEquals(personalDetailPage.getNationality(), nationality);
+        Assert.assertEquals(personalDetailPage.getMaritalStatus(), maritalStatus);
+        Assert.assertEquals(personalDetailPage.getDateOfBirth(), dateOfBirth);
+        Assert.assertEquals(personalDetailPage.getNumberOfImageIsUploaded(), 1);
+        Assert.assertEquals(personalDetailPage.getImageUploadedName(), fileUploadAtPersonalDetailPage);
     }
 
     @AfterClass(alwaysRun = true)
