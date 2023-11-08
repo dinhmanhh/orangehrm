@@ -39,4 +39,10 @@ public class BaseElement extends BasePage {
         return isElementDisplayed(driver, BaseElementUI.UPDATED_SUCCESS_MESSAGE);
     }
 
+    @Step("Check message Updated Success displayed")
+    public boolean isDeletedSuccessMessageDisplayed() {
+        waitForElementVisible(driver, BaseElementUI.DELETED_SUCCESS_MESSAGE);
+        return isElementDisplayed(driver, BaseElementUI.DELETED_SUCCESS_MESSAGE);
+    }
+
 }

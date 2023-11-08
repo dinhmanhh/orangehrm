@@ -7,5 +7,6 @@ public class BaseElementUI {
     public static final String UPLOAD_FILE = "//input[@type='file']";
     public static final String SAVED_SUCCESS_MESSAGE = "//div[@class='oxd-toast-start']//p[text()='Successfully Saved']";
     public static final String UPDATED_SUCCESS_MESSAGE = "//div[@class='oxd-toast-start']//p[text()='Successfully Updated']";
+    public static final String DELETED_SUCCESS_MESSAGE = "//div[@class='oxd-toast-start']//p[text()='Successfully Deleted']";
 
 }

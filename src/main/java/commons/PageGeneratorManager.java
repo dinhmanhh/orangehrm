@@ -1,10 +1,7 @@
 package commons;
 
 import org.openqa.selenium.WebDriver;
-import pageObject.HomePageObject;
-import pageObject.LoginPageObject;
-import pageObject.PIMPageObject;
-import pageObject.PersonalDetailObject;
+import pageObject.*;
 
 public class PageGeneratorManager {
     public static LoginPageObject getLoginPage(WebDriver driver) {
@@ -18,5 +15,8 @@ public class PageGeneratorManager {
     }
     public static PersonalDetailObject getPersonalDetailPage(WebDriver driver){
         return new PersonalDetailObject(driver);
+    }
+    public static AddEmployeePageObject getAddEmployeePage(WebDriver driver){
+        return new AddEmployeePageObject(driver);
     }
 }

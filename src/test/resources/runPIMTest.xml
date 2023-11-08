@@ -9,7 +9,7 @@
   <test name="Run on FIREFOX" preserve-order="true">>
   <parameter name="browser" value ="firefox"/>
     <classes>
-      <class name="account.Person_Information_Management"/>
+      <class name="pim.employeeList.Personal_Detail_Page"/>
     </classes>
   </test>  
   
