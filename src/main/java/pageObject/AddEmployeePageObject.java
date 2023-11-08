@@ -5,7 +5,7 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import pageUIs.AddEmployeePageUI;
 
-public class AddEmployeePageObject extends BaseElement {
+public class AddEmployeePageObject extends PIMPageObject {
     private WebDriver driver;
     public AddEmployeePageObject(WebDriver driver){
         super(driver);

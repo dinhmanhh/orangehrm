@@ -45,4 +45,6 @@ public class BaseElement extends BasePage {
         return isElementDisplayed(driver, BaseElementUI.DELETED_SUCCESS_MESSAGE);
     }
 
+
+
 }

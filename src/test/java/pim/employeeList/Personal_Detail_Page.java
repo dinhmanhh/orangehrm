@@ -18,6 +18,8 @@ public class Personal_Detail_Page extends BaseTest {
     private PIMPageObject pimPage;
     private PersonalDetailObject personalDetailPage;
     private AddEmployeePageObject addEmployeePage;
+    private EmployeeListPageObject employeeListPage;
+    String employeeIdAtUI;
     private String firstNameEmployee, middleNameEmployee, lastNameEmployee, userNameEmployee, passwordEmployee;
     private String driverLicenseNumber, licenseExpiryDate, nationality, maritalStatus, dateOfBirth, gender;
     private String fileUploadAtPersonalDetailPage;
@@ -28,15 +30,15 @@ public class Personal_Detail_Page extends BaseTest {
         loginPage = PageGeneratorManager.getLoginPage(driver);
         username = "dinhmanh";
         password = "Dinhmanh1234@";
-        firstNameEmployee = "Vladimir";
-        middleNameEmployee = "Vladimirovich";
-        lastNameEmployee = "Putin";
-        userNameEmployee = lastNameEmployee + getRandomNumberByDateTime();
-        passwordEmployee = "Putin123@";
+        firstNameEmployee = "First";
+        middleNameEmployee = "Middle";
+        lastNameEmployee = "Last";
+        userNameEmployee = "employee" + getRandomNumberByDateTime();
+        passwordEmployee = "Employee1234@";
 
         driverLicenseNumber = "1406267";
         licenseExpiryDate = "2024-10-02";
-        nationality = "Vietnamese";
+        nationality = "American";
         maritalStatus = "Married";
         dateOfBirth = "1997-04-29";
         gender = "Male";
@@ -59,7 +61,7 @@ public class Personal_Detail_Page extends BaseTest {
         addEmployeePage.inputToEmployeeNameTextbox("First Name", firstNameEmployee);
         addEmployeePage.inputToEmployeeNameTextbox("Middle Name", middleNameEmployee);
         addEmployeePage.inputToEmployeeNameTextbox("Last Name", lastNameEmployee);
-        String employeeIdAtUI = addEmployeePage.getEmployeeIdAtUI();
+        employeeIdAtUI = addEmployeePage.getEmployeeIdAtUI();
         addEmployeePage.clickToCreateLoginDetailCheckbox();
         addEmployeePage.inputToEmployeeLoginInforTextbox("Username", userNameEmployee);
         addEmployeePage.inputToEmployeeLoginInforTextbox("Password", passwordEmployee);
@@ -73,12 +75,15 @@ public class Personal_Detail_Page extends BaseTest {
         Assert.assertEquals(personalDetailPage.getEmployeeInforAtPersonalDetailsPage("Middle Name"), middleNameEmployee);
         Assert.assertEquals(personalDetailPage.getEmployeeInforAtPersonalDetailsPage("Last Name"), lastNameEmployee);
         String employeeIdAtDB = personalDetailPage.getEmployeeIdAtDB(employeeIdAtUI);
-        verifyEquals(employeeIdAtUI, employeeIdAtDB);
+        Assert.assertEquals(employeeIdAtUI, employeeIdAtDB);
     }
 
     @Test
     public void TC_02_Edit_Employee_Infor(){
-        personalDetailPage = PageGeneratorManager.getPersonalDetailPage(driver);
+        personalDetailPage.clickToTopBarMenuByText("Employee List");
+        employeeListPage = PageGeneratorManager.getEmployeeListPage(driver);
+        employeeListPage.clickToEditEmployeeByID(employeeIdAtUI);
+        personalDetailPage.waitSpinnerLoadingIconUndisplayed();
         personalDetailPage.inputToDriverLicenseNumberTextbox(driverLicenseNumber);
         personalDetailPage.inputToLicenseExpiryDateTextbox(licenseExpiryDate);
         personalDetailPage.selectNationality(nationality);
@@ -88,34 +93,39 @@ public class Personal_Detail_Page extends BaseTest {
         personalDetailPage.clickToSaveButtonAtPersonalInforArea();
         personalDetailPage.isUpdatedSuccessMessageDisplayed();
         personalDetailPage.waitSpinnerLoadingIconUndisplayed();
-
-        personalDetailPage.clickToAddAttachmentButton();
-        personalDetailPage.uploadAttachmentFile(fileUploadAtPersonalDetailPage);
-        personalDetailPage.clickToSaveButtonAtUploadAttachmentArea();
-        personalDetailPage.isSavedSuccessMessageDisplayed();
-        personalDetailPage.waitSpinnerLoadingIconUndisplayed();
-
         Assert.assertEquals(personalDetailPage.getDriverLicenseNumber(), driverLicenseNumber);
         Assert.assertEquals(personalDetailPage.getLicenseExpiryDate(), licenseExpiryDate);
         Assert.assertEquals(personalDetailPage.getNationality(), nationality);
         Assert.assertEquals(personalDetailPage.getMaritalStatus(), maritalStatus);
         Assert.assertEquals(personalDetailPage.getDateOfBirth(), dateOfBirth);
+
+        personalDetailPage.clickToTopBarMenuByText("Employee List");
+        employeeListPage = PageGeneratorManager.getEmployeeListPage(driver);
+        employeeListPage.clickToEditEmployeeByID(employeeIdAtUI);
+        personalDetailPage.waitSpinnerLoadingIconUndisplayed();
+        personalDetailPage.clickToAddAttachmentButton();
+        personalDetailPage.uploadAttachmentFile(fileUploadAtPersonalDetailPage);
+        personalDetailPage.clickToSaveButtonAtUploadAttachmentArea();
+        personalDetailPage.isSavedSuccessMessageDisplayed();
+        personalDetailPage.waitSpinnerLoadingIconUndisplayed();
         Assert.assertEquals(personalDetailPage.getNumberOfImageIsUploaded(), 1);
         Assert.assertEquals(personalDetailPage.getImageUploadedName(), fileUploadAtPersonalDetailPage);
     }
 
     @Test
     public void TC_03_Delete_Employee(){
-        personalDetailPage = PageGeneratorManager.getPersonalDetailPage(driver);
-        personalDetailPage.waitSpinnerLoadingIconUndisplayed();
-        personalDetailPage.clickToDeleteEmployeeByID("0014");
-        personalDetailPage.clickToConfirmDeleteEmployee();
-        personalDetailPage.isDeletedSuccessMessageDisplayed();
-        personalDetailPage.waitSpinnerLoadingIconUndisplayed();
-        personalDetailPage.isEmployeeDeletedFromDB("0014");
+        employeeListPage = PageGeneratorManager.getEmployeeListPage(driver);
+        employeeListPage.clickToTopBarMenuByText("Employee List");
+        employeeListPage.waitSpinnerLoadingIconUndisplayed();
 
-        int totalEmployeeAtUI = personalDetailPage.getTotalEmployeeAtUI();
-        int totalEmployeeAtDB = personalDetailPage.getTotalEmployeeAtDB();
+        employeeListPage.clickToDeleteEmployeeByID(employeeIdAtUI);
+        employeeListPage.clickToConfirmDeleteEmployee();
+        employeeListPage.isDeletedSuccessMessageDisplayed();
+        employeeListPage.waitSpinnerLoadingIconUndisplayed();
+        employeeListPage.isEmployeeDeletedFromDB(employeeIdAtUI);
+
+        int totalEmployeeAtUI = employeeListPage.getTotalEmployeeAtUI();
+        int totalEmployeeAtDB = employeeListPage.getTotalEmployeeAtDB();
         System.out.println(totalEmployeeAtUI);
         System.out.println(totalEmployeeAtDB);
         Assert.assertEquals(totalEmployeeAtUI, totalEmployeeAtDB);
@@ -123,16 +133,18 @@ public class Personal_Detail_Page extends BaseTest {
 
     @Test
     public void TC_04_Sort_Employee(){
-        personalDetailPage = PageGeneratorManager.getPersonalDetailPage(driver);
+        employeeListPage = PageGeneratorManager.getEmployeeListPage(driver);
+        employeeListPage.clickToTopBarMenuByText("Employee List");
+        employeeListPage.waitSpinnerLoadingIconUndisplayed();
 
-        personalDetailPage.selectItemInIdSortDropdown("Ascending");
-        personalDetailPage.waitSpinnerLoadingIconUndisplayed();
-        personalDetailPage.isEmployeeIDSortedByAsc();
-        personalDetailPage.sleepInSecond(1);
+        employeeListPage.selectItemInIdSortDropdown("Ascending");
+        employeeListPage.waitSpinnerLoadingIconUndisplayed();
+        employeeListPage.isEmployeeIDSortedByAsc();
+        employeeListPage.sleepInSecond(1);
 
-        personalDetailPage.selectItemInIdSortDropdown("Descending");
-        personalDetailPage.waitSpinnerLoadingIconUndisplayed();
-        personalDetailPage.isEmployeeIDSortedByDesc();
+        employeeListPage.selectItemInIdSortDropdown("Descending");
+        employeeListPage.waitSpinnerLoadingIconUndisplayed();
+        employeeListPage.isEmployeeIDSortedByDesc();
     }
 
     @AfterClass(alwaysRun = true)

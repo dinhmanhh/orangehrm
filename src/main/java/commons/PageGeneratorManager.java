@@ -19,4 +19,7 @@ public class PageGeneratorManager {
     public static AddEmployeePageObject getAddEmployeePage(WebDriver driver){
         return new AddEmployeePageObject(driver);
     }
+    public static EmployeeListPageObject getEmployeeListPage(WebDriver driver){
+        return new EmployeeListPageObject(driver);
+    }
 }

@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class PersonalDetailObject extends BaseElement {
+public class PersonalDetailObject extends PIMPageObject {
     private WebDriver driver;
 
     public PersonalDetailObject(WebDriver driver) {
@@ -60,52 +60,8 @@ public class PersonalDetailObject extends BaseElement {
         return employeeIdAtDB;
     }
 
-    public boolean isEmployeeDeletedFromDB(String employeeID) {
-        Connection conn = MySQLConnUtils.getMySQLConnection();
-        try {
-            String sql = "SELECT employee_id FROM hs_hr_employee WHERE employee_id = ?;";
-            PreparedStatement pstm = conn.prepareStatement(sql);
-            pstm.setString(1, employeeID);
-            ResultSet rs = pstm.executeQuery();
-            Assert.assertFalse(rs.next());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return true;
-    }
 
-    public int getTotalEmployeeAtDB() {
-        Connection conn = MySQLConnUtils.getMySQLConnection();
-        int totalEmployee = 0;
-        String sql = "SELECT DISTINCT COUNT(*) as totalEmployee FROM hs_hr_employee;";
-        try {
-            Statement statement = conn.createStatement();
-            ResultSet rs = statement.executeQuery(sql);
-            while (rs.next()) {
-                totalEmployee = rs.getInt("totalEmployee");
-            }
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (conn != null) {
-                conn.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return totalEmployee;
-    }
+
 
     public void inputToDriverLicenseNumberTextbox(String driverLicenseNumber) {
         waitForAllElementVisible(driver, PersonalDetailPageUI.DRIVER_LICENSE_NUMBER_TEXTBOX);
@@ -189,40 +145,5 @@ public class PersonalDetailObject extends BaseElement {
         return getElementAttribute(driver, PersonalDetailPageUI.IMAGE_UPLOADED_NAME_TEXT, "textContent");
     }
 
-    public void clickToDeleteEmployeeByID(String employeeID) {
-        waitForElementClickable(driver, PersonalDetailPageUI.DELETE_EMPLOYEE_BUTTON_BY_ID, employeeID);
-        clickToElement(driver, PersonalDetailPageUI.DELETE_EMPLOYEE_BUTTON_BY_ID, employeeID);
-    }
 
-    public void clickToConfirmDeleteEmployee() {
-        waitForElementClickable(driver, PersonalDetailPageUI.CONFIRM_DELETE_EMPLOYEE_BUTTON);
-        clickToElement(driver, PersonalDetailPageUI.CONFIRM_DELETE_EMPLOYEE_BUTTON);
-    }
-
-    public void selectItemInIdSortDropdown(String textItem) {
-        selectItemInCustomDropdown(driver, PersonalDetailPageUI.ICON_SORT_BY_ID, PersonalDetailPageUI.SORT_BY_ID_ITEM, textItem);
-    }
-
-    public boolean isEmployeeIDSortedByAsc() {
-        List<WebElement> employeeID = getListWebElement(driver, PersonalDetailPageUI.EMPLOYEE_ID_TEXT_ITEM);
-        List<String> employeeIDinUI = employeeID.stream().map(n -> n.getText()).collect(Collectors.toList());
-        List<String> employeeIDSorted = new ArrayList<>(employeeIDinUI);
-        Collections.sort(employeeIDSorted);
-        return employeeIDSorted.equals(employeeIDinUI);
-    }
-
-    public boolean isEmployeeIDSortedByDesc() {
-        List<WebElement> employeeID = getListWebElement(driver, PersonalDetailPageUI.EMPLOYEE_ID_TEXT_ITEM);
-        List<String> employeeIDatUI = employeeID.stream().map(n -> n.getText()).collect(Collectors.toList());
-        List<String> employeeIDSorted = new ArrayList<>(employeeIDatUI);
-        Collections.sort(employeeIDSorted);
-        Collections.reverse(employeeIDSorted);
-        return employeeIDSorted.equals(employeeIDatUI);
-    }
-
-    public int getTotalEmployeeAtUI() {
-        waitForElementVisible(driver, PersonalDetailPageUI.TOTAL_EMPLOYEE_AT_UI_TEXT);
-        String totalEmployeeText = getElementAttribute(driver, PersonalDetailPageUI.TOTAL_EMPLOYEE_AT_UI_TEXT, "innerText");
-        return Integer.parseInt(totalEmployeeText.replace("(", "").replace(")", "").replace(" Records Found", ""));
-    }
 }
