@@ -86,7 +86,8 @@ public class EmployeeListPageObject extends PIMPageObject {
     public int getTotalEmployeeAtUI() {
         waitForElementVisible(driver, EmployeeListPageUI.TOTAL_EMPLOYEE_AT_UI_TEXT);
         String totalEmployeeText = getElementAttribute(driver, EmployeeListPageUI.TOTAL_EMPLOYEE_AT_UI_TEXT, "innerText");
-        return Integer.parseInt(totalEmployeeText.replace("(", "").replace(")", "").replace(" Records Found", ""));
+        String totalEmployeeTexts[] = totalEmployeeText.split(" ");
+        return Integer.parseInt(totalEmployeeTexts[0].substring(1, 3));
     }
 
     public int getTotalEmployeeAtDB() {

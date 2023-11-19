@@ -10,6 +10,13 @@ public class BaseElement extends BasePage {
         this.driver = driver;
     }
 
+    @Step("Click to Main menu")
+    public void clickToMainMenuByText(String mainMenu) {
+        waitSpinnerLoadingIconUndisplayed();
+        waitForElementClickable(driver, BaseElementUI.DYNAMIC_MAIN_MENU, mainMenu);
+        clickToElement(driver, BaseElementUI.DYNAMIC_MAIN_MENU, mainMenu);
+    }
+
     @Step("Check User Name In Header displayed")
     public boolean isUserNameDisplayed() {
         waitForElementVisible(driver, BaseElementUI.HEADER_USER_NAME);
@@ -18,13 +25,6 @@ public class BaseElement extends BasePage {
 
     public void waitSpinnerLoadingIconUndisplayed() {
         waitForElementUndisplayed(driver, BaseElementUI.SPINNER_LOADING_ICON);
-    }
-
-    @Step("Click to Main menu")
-    public void clickToMainMenuByText(String mainMenu) {
-        waitSpinnerLoadingIconUndisplayed();
-        waitForElementClickable(driver, BaseElementUI.DYNAMIC_MAIN_MENU, mainMenu);
-        clickToElement(driver, BaseElementUI.DYNAMIC_MAIN_MENU, mainMenu);
     }
 
     @Step("Check message Saved Success displayed")

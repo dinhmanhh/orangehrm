@@ -1,13 +1,10 @@
-package pim.employeeList;
+package pim;
 
 import commons.BaseTest;
 import commons.PageGeneratorManager;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import pageObject.*;
 
 public class Personal_Detail_Page extends BaseTest {
@@ -19,21 +16,21 @@ public class Personal_Detail_Page extends BaseTest {
     private PersonalDetailObject personalDetailPage;
     private AddEmployeePageObject addEmployeePage;
     private EmployeeListPageObject employeeListPage;
-    String employeeIdAtUI;
+    private String employeeIdAtUI;
     private String firstNameEmployee, middleNameEmployee, lastNameEmployee, userNameEmployee, passwordEmployee;
     private String driverLicenseNumber, licenseExpiryDate, nationality, maritalStatus, dateOfBirth, gender;
     private String fileUploadAtPersonalDetailPage;
-    @Parameters({"browser", "environment"})
+    @Parameters({"environmentName", "serverName", "browserName", "osName", "osVersion"})
     @BeforeClass
-    public void beforeClass(String browserName, String environmentName) {
-        driver = getBrowserDriver(browserName, environmentName);
+    public void beforeClass(@Optional("local") String environmentName, @Optional("test") String serverName, @Optional("firefox") String browserName, @Optional("Windows") String osName, @Optional("10") String osVersion ) {
+        driver = getBrowserDriver(environmentName, serverName, browserName, osName, osVersion);
         loginPage = PageGeneratorManager.getLoginPage(driver);
         username = "dinhmanh";
         password = "Dinhmanh1234@";
         firstNameEmployee = "First";
         middleNameEmployee = "Middle";
         lastNameEmployee = "Last";
-        userNameEmployee = "employee" + getRandomNumberByDateTime();
+        userNameEmployee = getRandomEmail();
         passwordEmployee = "Employee1234@";
 
         driverLicenseNumber = "1406267";
@@ -114,7 +111,6 @@ public class Personal_Detail_Page extends BaseTest {
 
     @Test
     public void TC_03_Delete_Employee(){
-        employeeListPage = PageGeneratorManager.getEmployeeListPage(driver);
         employeeListPage.clickToTopBarMenuByText("Employee List");
         employeeListPage.waitSpinnerLoadingIconUndisplayed();
 
@@ -126,14 +122,11 @@ public class Personal_Detail_Page extends BaseTest {
 
         int totalEmployeeAtUI = employeeListPage.getTotalEmployeeAtUI();
         int totalEmployeeAtDB = employeeListPage.getTotalEmployeeAtDB();
-        System.out.println(totalEmployeeAtUI);
-        System.out.println(totalEmployeeAtDB);
         Assert.assertEquals(totalEmployeeAtUI, totalEmployeeAtDB);
     }
 
     @Test
     public void TC_04_Sort_Employee(){
-        employeeListPage = PageGeneratorManager.getEmployeeListPage(driver);
         employeeListPage.clickToTopBarMenuByText("Employee List");
         employeeListPage.waitSpinnerLoadingIconUndisplayed();
 
@@ -149,6 +142,6 @@ public class Personal_Detail_Page extends BaseTest {
 
     @AfterClass(alwaysRun = true)
     public void afterClass() {
-        closeBrowserAndDriver();
+        closeBrowserAndDriver("local");
     }
 }

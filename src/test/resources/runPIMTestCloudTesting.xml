@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<suite name="OrangeHRM">
+  <listeners>
+    <listener class-name="commons.MethodListener"/>
+    <listener class-name="reportConfig.AllureTestListener"/>
+  </listeners>
+
+  <!-- Sauce Lab -->
+  <parameter name = "environmentName" value="sauceLab"/>
+  <parameter name = "serverName" value="staging"/>
+    <test name="Run on FIREFOX">
+      <parameter name="browserName" value ="firefox"/>
+      <parameter name ="platformName" value="macOS 13"/>
+      <classes>
+        <class name="pim.Personal_Detail_Page_Cloud_Testing"/>
+      </classes>
+    </test>
+
+    <test name="Run on CHROME">
+      <parameter name="browserName" value ="chrome"/>
+      <parameter name ="platformName" value="Windows 10"/>
+      <classes>
+        <class name="pim.Personal_Detail_Page_Cloud_Testing"/>
+      </classes>
+    </test>
+
+
+  <!-- Browser Stack -->
+<!--  <parameter name = "environmentName" value="browserStack"/>-->
+<!--  <parameter name = "serverName" value="staging"/>-->
+<!--  <test name="Run on SAFARI">-->
+<!--    <parameter name="os" value ="OS X"/>-->
+<!--    <parameter name ="osVersion" value="Monterey"/>-->
+<!--    <parameter name="browserName" value ="Safari"/>-->
+<!--    <classes>-->
+<!--      <class name="pim.Personal_Detail_Page_Cloud_Testing"/>-->
+<!--    </classes>-->
+<!--  </test>-->
+
+<!--  <test name="Run on CHROME">-->
+<!--    <parameter name="os" value ="Windows"/>-->
+<!--    <parameter name ="osVersion" value="10"/>-->
+<!--    <parameter name="browserName" value ="Chrome"/>-->
+<!--    <classes>-->
+<!--      <class name="pim.Personal_Detail_Page_Cloud_Testing"/>-->
+<!--    </classes>-->
+<!--  </test>-->
+
+</suite> 
