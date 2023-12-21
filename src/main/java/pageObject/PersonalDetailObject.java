@@ -1,18 +1,11 @@
 package pageObject;
 
-import commons.BaseElement;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.testng.Assert;
 import pageUIs.PersonalDetailPageUI;
 import utilities.MySQLConnUtils;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class PersonalDetailObject extends PIMPageObject {
     private WebDriver driver;

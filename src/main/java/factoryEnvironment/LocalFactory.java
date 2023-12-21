@@ -1,9 +1,7 @@
 package factoryEnvironment;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
+import factoryBrowser.*;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 
 public class LocalFactory {
     private WebDriver driver;
@@ -15,22 +13,22 @@ public class LocalFactory {
     }
 
     public WebDriver createDriver(){
-        Browser browser = Browser.valueOf(browserName.toUpperCase());
-        if (browser == Browser.FIREFOX) {
-            driver = WebDriverManager.firefoxdriver().create();
-        } else if (browser == Browser.CHROME) {
-            WebDriverManager.chromedriver().setup();
-            ChromeOptions options = new ChromeOptions();
-            options.addArguments("--lang=en");
-            driver = new ChromeDriver(options);
-        }  else if (browser == Browser.EDGE) {
-            driver = WebDriverManager.edgedriver().create();
-        } else if (browserName.equals("safari")) {
-            driver = WebDriverManager.safaridriver().create();
-        } else if (browserName.equals("opera")) {
-            driver = WebDriverManager.operadriver().create();
-        } else {
-            throw new RuntimeException("Browser name invalid!");
+        BrowserList browser = BrowserList.valueOf(browserName.toUpperCase());
+        switch (browser){
+            case CHROME:
+                driver = new ChromeDriverManager().getBrowserDriver();
+                break;
+            case FIREFOX:
+                driver = new FirefoxDriverManager().getBrowserDriver();
+                break;
+            case EDGE:
+                driver = new EdgeDriverManager().getBrowserDriver();
+                break;
+            case SAFARI:
+                driver = new SafariDriverManager().getBrowserDriver();
+                break;
+            default:
+                throw new BrowserNotSupportedException(browserName);
         }
         return driver;
     }

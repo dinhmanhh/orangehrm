@@ -7,11 +7,19 @@
   </listeners>
   <parameter name = "environmentName" value="local"/>
   <parameter name = "serverName" value="test"/>
+
   <test name="Run on FIREFOX" preserve-order="true">
   <parameter name="browserName" value ="firefox"/>
     <classes>
       <class name="pim.Personal_Detail_Page"/>
     </classes>
-  </test>  
-  
+  </test>
+
+<!--  <test name="Run on CHROME" preserve-order="true">-->
+<!--    <parameter name="browserName" value ="chrome"/>-->
+<!--    <classes>-->
+<!--      <class name="pim.Personal_Detail_Page"/>-->
+<!--    </classes>-->
+<!--  </test>-->
+
 </suite> 

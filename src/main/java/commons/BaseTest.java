@@ -2,6 +2,7 @@ package commons;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.Calendar;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -19,7 +20,7 @@ import org.testng.Assert;
 import org.testng.Reporter;
 import org.testng.annotations.BeforeSuite;
 
-public class BaseTest{
+public abstract class BaseTest{
     private WebDriver driver;
 
     protected final Logger log;
@@ -43,7 +44,7 @@ public class BaseTest{
                 driver = new LocalFactory(browserName).createDriver();
                 break;
         }
-        driver.manage().timeouts().implicitlyWait(GlobalConstants.LONG_TIMEOUT, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(GlobalConstants.LONG_TIMEOUT));
         driver.manage().window().maximize();
         driver.get(getEnvironmentURL(serverName));
         return driver;
